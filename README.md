@@ -21,7 +21,12 @@ Main recipe is `clang::default` (uses packages), the other one is `clang::tarbal
 There are no attributes to tweak.
 
 
-## Architectures
+## Supported OSes
+
+Recent Ubuntu and Debian releases (actively tested with Ubuntu 11.10, 12.04).
+
+
+## Supported architectures
 
 Currently this cookbook only supports 32 bit systems, as used by travis-ci.org. It would be very straightforward
 to add support for x64 and we will do so in the near future.
