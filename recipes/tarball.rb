@@ -21,36 +21,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-arch = case node.clang.version
-       when "3.1" then
-         "x86"
-       else
-         "i386"
-       end
+platform_name, ext = case [node[:platform], node[:platform_version]]
+                     when ["ubuntu", "11.10"]
+                       ["#{node[:platform]}-#{node[:platform_version]}", "tar.bz2"]
+                     when ["ubuntu", "12.04"]
+                       ["#{node[:platform]}_#{node[:platform_version]}", "tar.gz"]
+                     end
 
-filename = case [node[:platform], node[:platform_version]]
-           when ["ubuntu", "11.10"] then
-             "clang+llvm-#{node.clang.version}-#{arch}-linux-ubuntu-11.10.tar.bz2"
-           when ["ubuntu", "12.04"] then
-             "clang+llvm-#{node.clang.version}-#{arch}-linux-ubuntu-12.04.tar.gz"
-           end
+filename = "clang+llvm-#{node.clang.version}-#{node.clang.arch}-linux-#{platform_name}"
 
 installation_dir = "/usr/local/clang"
-
-
 
 # 1. Download the tarball to /tmp
 require "tmpdir"
 
 td            = Dir.tmpdir
-local_tarball = File.join(td, "clang+llvm-#{node.clang.version}-#{arch}-linux-ubuntu-11.10.tar.bz2")
-tarball_dir   = File.join(td, "clang+llvm-#{node.clang.version}-#{arch}-linux-ubuntu-11.10")
+local_tarball = File.join(td, "#{filename}.#{ext}")
+tarball_dir   = File.join(td, filename)
 
 remote_file(local_tarball) do
-  source "http://llvm.org/releases/#{node.clang.version}/#{filename}"
+  source "http://llvm.org/releases/#{node.clang.version}/#{filename}.#{ext}"
 
   not_if "which clang"
 end
+
+tar_args = (ext =~ /gz/ ? 'zfx' : 'jfx')
 
 # 2. Extract it
 # 3. Copy to /usr/local/clang, update permissions
@@ -60,7 +55,7 @@ bash "extract #{local_tarball}, move it to /usr/local" do
 
   code <<-EOS
     rm -rf #{installation_dir}
-    tar jfx #{local_tarball}
+    tar #{tar_args} #{local_tarball}
     mv --force #{tarball_dir} #{installation_dir}
 
     chmod +x #{installation_dir}/bin/clang
