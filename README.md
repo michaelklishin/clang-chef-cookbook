@@ -7,7 +7,7 @@ It uses Ubuntu/Debian packages or [officially released Clang binaries](http://ll
 
 ## Clang Version
 
-This cookbook currently provides Clang 3.1 via prebuild binaries and distribution-dependent version (typically 2.9 or 3.0) via
+This cookbook provides Clang 3.2+ via prebuild binaries and distribution-dependent version (typically 2.9 or 3.0) via
 packages.
 
 
@@ -23,13 +23,12 @@ There are no attributes to tweak.
 
 ## Supported OSes
 
-Recent Ubuntu and Debian releases (actively tested with Ubuntu 11.10, 12.04).
+Recent Ubuntu and Debian releases (actively tested with Ubuntu 12.04).
 
 
 ## Supported architectures
 
-Currently this cookbook only supports 32 bit systems, as used by travis-ci.org. It would be very straightforward
-to add support for x64 and we will do so in the near future.
+Currently this cookbook supports 32 and 64 bit systems.
 
 
 ## Dependencies
@@ -39,6 +38,6 @@ None.
 
 ## Copyright & License
 
-Michael S. Klishin, Travis CI Development Team, 2012.
+Michael S. Klishin, Travis CI Development Team, 2012-2013.
 
 Released under the [Apache Public License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
