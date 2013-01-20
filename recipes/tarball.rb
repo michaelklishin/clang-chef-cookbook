@@ -1,7 +1,7 @@
 #
 # Cookbook Name:: clang
 # Recipe:: tarball
-# Copyright 2012, Travis CI development team
+# Copyright 2012-2013, Travis CI Development Team <contact@travis-ci.org>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,11 +21,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-platform_name, ext = case [node[:platform], node[:platform_version]]
-                     when ["ubuntu", "11.10"]
-                       ["#{node[:platform]}-#{node[:platform_version]}", "tar.bz2"]
+platform_name, ext = case [node.platform, node.platform_version]
                      when ["ubuntu", "12.04"]
-                       ["#{node[:platform]}_#{node[:platform_version]}", "tar.gz"]
+                       ["#{node.platform}-#{node.platform_version.gsub(/_/, '-')}", "tar.gz"]
                      end
 
 filename = "clang+llvm-#{node.clang.version}-#{node.clang.arch}-linux-#{platform_name}"
@@ -67,21 +65,9 @@ end
 
 # 4. Symlink
 %w(clang clang++ llvm-ld llvm-link).each do |f|
-  # due to a Chef bug that prevents not_if for the link resource from doing the
-  # correct thing. MK.
-  bash "Remove the symlink to /usr/local/bin/#{f}" do
-    user "root"
-    cwd  "/tmp"
-
-    code <<-EOS
-      rm -f /usr/local/bin/#{f}
-    EOS
-  end
-
   link "/usr/local/bin/#{f}" do
     owner "root"
     group "root"
     to    "#{installation_dir}/bin/#{f}"
-    not_if  "test -L /usr/local/bin/#{f}"
   end
 end
