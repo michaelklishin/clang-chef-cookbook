@@ -1,14 +1,8 @@
 # Clang Chef Cookbook
 
-This is an OpsCode Chef cookbook for [Clang](http://clang.llvm.org).
+This is a [Chef](http://www.getchef.com/) cookbook for [Clang](http://clang.llvm.org).
 
 It uses Ubuntu/Debian packages or [officially released Clang binaries](http://llvm.org/releases/download.html) to provision Clang.
-
-
-## Clang Version
-
-This cookbook provides Clang 3.2+ via prebuild binaries and distribution-dependent version (typically 2.9 or 3.0) via
-packages.
 
 
 ## Recipes
@@ -18,27 +12,24 @@ Main recipe is `clang::default` (uses packages), the other one is `clang::tarbal
 
 ## Attributes
 
-There are no attributes to tweak.
+There are no attributes to tweak for the `clang::default` recipe.
+
+For the `clang::tarball` recipe, `version`, `checksum` and `download_url` of the tarball package can be defined via Chef attributes.
 
 
 ## Supported OSes
 
-Recent Ubuntu and Debian releases (actively tested with Ubuntu 12.04).
-
-
-## Supported architectures
-
-Currently this cookbook supports 32 and 64 bit systems.
+Recent Ubuntu and Debian releases (actively tested with Ubuntu 12.04 64 bit).
 
 
 ## Dependencies
 
-None.
+- [ark](https://github.com/opscode-cookbooks/ark) cookbook >= 0.8
 
 
 ## Copyright & License
 
-Michael S. Klishin, Travis CI Development Team, 2012-2013.
+Michael S. Klishin, Travis CI Development Team, 2012-2014.
 
 Released under the [Apache Public License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
